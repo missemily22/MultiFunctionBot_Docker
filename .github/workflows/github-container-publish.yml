@@ -1,0 +1,32 @@
+name: Publish to ghcr.io
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - v*
+  workflow_dispatch:    
+
+env:
+  IMAGE: ghcr.io/missemily22/multifbot:latest
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.5.0
+      - name: Login to ghcr.io registry
+        run: docker login https://ghcr.io -u token -p ${{ secrets.GITHUB_TOKEN }}
+      - if: startsWith(github.ref, 'refs/heads/master')
+        run: echo "TAG=latest" >> $GITHUB_ENV
+      - if: startsWith(github.ref, 'refs/tags')
+        run: echo "TAG=$(git describe --tags)" >> $GITHUB_ENV
+      - name: Build & Push
+        uses: docker/build-push-action@v3.2.0
+        with:
+          context: ./
+          file: ./Dockerfile Base/Dockerfile
+          push: true
+          platforms: linux/amd64
+          tags: ghcr.io/missemily22/multifbot:latest
