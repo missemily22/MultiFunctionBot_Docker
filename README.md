@@ -5,7 +5,6 @@
 
 <b><i> Images(DockerHub) : -</i></b><br>
 
-• <i>ARM Platform - Use docker pull </i> missemily22/multifbot:latest <br>
 • <i>AMD Platform - Use docker pull </i> missemily22/multifbot:latest <br>
 
 <b><i> Images(GitContainer) : -</i></b><br>
